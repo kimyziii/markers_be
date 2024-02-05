@@ -45,7 +45,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      domain: 'http://localhost:3000',
+      domain: process.env.FE_URL,
       // httpOnly: true,
       sameSite: 'none',
       secure: false,
@@ -55,7 +55,7 @@ app.use(
 
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.FE_URL,
     credentials: true,
     exposedHeaders: ['set-cookie'],
   }),
