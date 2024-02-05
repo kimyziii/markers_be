@@ -10,6 +10,7 @@ const plansModel = require('./models/plans.model')
 const usersModel = require('./models/users.model')
 
 const app = express()
+dotenv.config({ path: './.env' })
 
 app.use(
   cookieSession({
@@ -65,7 +66,6 @@ app.use(passport.initialize())
 app.use(passport.session())
 require('./config/passport')
 
-dotenv.config({ path: './.env' })
 mongoose
   .connect(
     `mongodb+srv://${process.env.MONGODB_ID}:${process.env.MONGODB_PASSWORD}@markers.9718z2h.mongodb.net/?retryWrites=true&w=majority`,
