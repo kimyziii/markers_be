@@ -59,6 +59,7 @@ app.use(
     origin: process.env.FE_URL,
     credentials: true,
     exposedHeaders: ['set-cookie'],
+    optionsSuccessStatus: 200,
   }),
 )
 
@@ -84,12 +85,12 @@ app.listen(PORT, () => {
   console.log(`Running on port ${PORT}`)
 })
 
-app.get('/plans/:uId', async (req, res) => {
+app.get('/plans/:mid', async (req, res) => {
   console.log('>>>>>>>>>>>>>>>> getAllPlans')
   console.log(req.params)
 
   try {
-    const allPlans = await plansModel.find({ createdById: req.params.uId })
+    const allPlans = await plansModel.find({ createdById: req.params.mid })
     res.status(200).json(allPlans)
     console.log(allPlans)
   } catch (error) {
@@ -182,6 +183,26 @@ app.post('/login/sns', async (req, res) => {
     } else {
       const createdUser = await usersModel.create(req.body)
       res.status(201).json(createdUser)
+    }
+  } catch (err) {
+    console.log(err.message)
+    res.json({ message: err.message })
+  }
+})
+
+app.patch('/user/:mid', async (req, res) => {
+  console.log('>>>>>>>>>>>>> user update')
+  console.log(req.params.mid)
+  try {
+    const targetUser = await usersModel.findOne({ nickname: req.body.nickname })
+
+    if (targetUser) {
+      res.status(409).json({ message: 'Duplicate nickname' })
+    } else {
+      await usersModel.findByIdAndUpdate(req.params.mid, {
+        nickname: req.body.nickname,
+      })
+      res.status(200).json({ message: 'Nickname updated successfully' })
     }
   } catch (err) {
     console.log(err.message)
