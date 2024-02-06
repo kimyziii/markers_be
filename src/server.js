@@ -221,3 +221,14 @@ app.patch('/user/:mid', async (req, res) => {
     res.json({ message: err.message })
   }
 })
+
+app.delete('/user/:mid', async (req, res) => {
+  console.log('>>>>>>>>>>>>>> user delete')
+  try {
+    const response = await usersModel.findByIdAndDelete({ _id: req.params.mid })
+    res.status(200).json({})
+  } catch (err) {
+    console.log(err.message)
+    res.json({ message: err.message })
+  }
+})
