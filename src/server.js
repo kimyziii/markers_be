@@ -85,6 +85,18 @@ app.listen(PORT, () => {
   console.log(`Running on port ${PORT}`)
 })
 
+app.get('/plans', async (req, res) => {
+  console.log('>>>>>>>>>>> get public plans')
+
+  try {
+    const publicPlans = await plansModel.find({ isPublic: true })
+    res.status(200).json(publicPlans)
+  } catch (err) {
+    console.log(err.message)
+    res.send({ message: error.message })
+  }
+})
+
 app.get('/plans/:mid', async (req, res) => {
   console.log('>>>>>>>>>>>>>>>> getAllPlans')
   console.log(req.params)
