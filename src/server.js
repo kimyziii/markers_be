@@ -124,6 +124,20 @@ app.post('/plans', async (req, res) => {
   }
 })
 
+app.patch('/plans/:planId', async (req, res) => {
+  console.log('>>>>>>>>>>>>> update specific plan')
+  try {
+    const result = await plansModel.findByIdAndUpdate(
+      { _id: req.params.planId },
+      req.body,
+    )
+    if (result) res.status(200).json({ message: 'success' })
+  } catch (e) {
+    console.log(e.message)
+    res.send({ message: e.message })
+  }
+})
+
 app.get('/plan/:planId', async (req, res) => {
   console.log('>>>>>>>>>>>>>> get specific plan')
   console.log(req.params)
