@@ -5,6 +5,7 @@ const plansSchema = new mongoose.Schema({
   isPublic: Boolean,
   createdById: String,
   createdAt: Date,
+  modifiedAt: Date,
   data: String,
 })
 
